@@ -1,7 +1,7 @@
 
 const http=require("http");
 // const fs=require("fs");
-const routes=require("./routes");
+//const routes=require("./routes");
 // const server=http.createServer((req, res) => {
     //url.method
 
@@ -56,11 +56,23 @@ const routes=require("./routes");
     //     }
     // }
 //})
+//routes.testFunction();
 
-routes.testFunction();
+const express=require('express');
 
-const server=http.createServer(routes.handler);
+const app = express();
 
-server.listen(3000, () => {
-    console.log("Server is Running");
+app.use((req, res, next) => {
+    console.log('In the middleware!');
+    next(); //this allows the request to continue to the next middleware in line 
 })
+
+app.use((req, res, next) => {
+    console.log('In another middleware!');
+    res.send('<h1>hello to node js</h1>');
+    res.send({key1:"value"});
+})
+
+const server=http.createServer(app);
+ 
+app.listen(3000);
